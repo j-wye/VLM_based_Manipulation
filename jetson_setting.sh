@@ -4,11 +4,13 @@ sudo vi /etc/apt/sources.list +%s/ports.ubuntu.com/ftp.kaist.ac.kr +wq!
 sudo apt update
 sudo apt install fonts-noto-cjk-extra gnome-user-docs-ko hunspell-ko ibus-hangul language-pack-gnome-ko language-pack-ko hunspell-en-gb hunspell-en-au hunspell-en-ca hunspell-en-za -y
 ibus restart
+sudo apt update && sudo apt upgrade -y
 sudo apt install software-properties-common curl -y
 sudo add-apt-repository universe -y
 sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-sudo apt install ros-humble-desktop-full -y
+sudo apt update
+sudo apt install ros-humble-desktop -y
 source /opt/ros/humble/setup.bash
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 source ~/.bashrc
@@ -49,3 +51,7 @@ sudo apt install firefox
 sudo snap install gnome-42-2204
 sudo snap connect firefox:gnome-42-2204 gnome-42-2204:gnome-42-2204
 snap connections firefox
+
+# Install additional packages
+sudo -H pip install -U jetson-stats
+sudo reboot
