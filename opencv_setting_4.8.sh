@@ -181,3 +181,4 @@ if [ -d ~/opencv/build ]; then
 else
     install_opencv
 fi
+jetson_release
