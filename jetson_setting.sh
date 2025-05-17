@@ -55,3 +55,5 @@ snap connections firefox
 # Install additional packages
 sudo -H pip install -U jetson-stats
 sudo reboot
+
+
