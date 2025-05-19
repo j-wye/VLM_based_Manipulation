@@ -4,6 +4,8 @@
 Jetpack 6.0, CUDA 12.2, L4T R36.3, torch 2.3, torchivision 0.18
 ### Jetson AGX Orin Settings (Jetpack 6.0)
 ```bash
+# aarch64 RustDesk Download
+wget https://github.com/rustdesk/rustdesk/releases/download/1.4.0/rustdesk-1.4.0-aarch64.deb
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/jetson_setting.sh
 bash jetson_setting.sh
 ```
