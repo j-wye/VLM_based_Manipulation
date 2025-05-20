@@ -12,12 +12,7 @@ python3 -c "import torch, torchvision; print(torchvision.__version__)"
 ```bash
 python3 -m pip install --upgrade pip
 pip install numpy==1.26.4
-sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
-wget https://developer.download.nvidia.com/compute/redist/jp/v61/pytorch/torch-2.5.0a0+872d972e41.nv24.08.17622132-cp310-cp310-linux_aarch64.whl
-python3 -m pip install --user --no-cache-dir --force torch-2.5.0a0+872d972e41.nv24.08.17622132-cp310-cp310-linux_aarch64.whl
-git clone --branch v0.20.0 https://github.com/pytorch/vision.git
-cd vision
-python setup.py install --user
+pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
 ```
 
 ### If you want to Build OpenCV With CUDA
@@ -26,22 +21,21 @@ python setup.py install --user
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/opencv_setting_4.8.sh
 bash opencv_setting_4.8.sh
 
-# OpenCV Version 4.10.0 with Jetpack 6.2
+# OpenCV Version 4.10.0 with over than Jetpack 6.1
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/opencv_setting_4.10.sh
 bash opencv_setting_4.10.sh
 ```
 
 - if you have a problem follows:
     ```bash
-    opencv/modules/dnn/src/layers/../cuda4dnn/primitives/normalize_bbox.hpp
+    opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
     -            if (weight != 1.0)
     +            if (weight != static_cast<T>(1.0))
     ```
     ```bash
-    opencv/modules/dnn/src/layers/../cuda4dnn/primitives/region.hpp
+    opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
     -            if (nms_iou_threshold > 0) {
     +            if (nms_iou_threshold > static_cast<T>(0)) {
-                }
     ```
 
 ### Realsense Installation

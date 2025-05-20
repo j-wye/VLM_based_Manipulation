@@ -12,19 +12,23 @@ git clone https://github.com/catchorg/Catch2.git
 
 # Build dependencies
 sudo apt-get install apt-utils python3-libnvinfer-dev -y
-pip install transformers matplotlib Pillow numpy
-cd torch2trt
-python3 setup.py install --user
+pip install timm onnxsim aiohttp ftfy regex tqdm openai-clip
+pip install transformers matplotlib Pillow numpy==1.26.4
+cd Catch2
+# cmake -B build -S . -DBUILD_TESTING=OFF
+# cmake --build build --parallel $(nproc)
+cmake -Bbuild -H. -DBUILD_TESTING=OFF
+sudo cmake --build build/ --target install --parallel $(nproc)
+cd ../torch2trt
+sed -i '29,$d' CMakeLists.txt
+python3 setup.py install --user --plugins
 cd ../nanoowl
 pip3 install .
 cd ../trt_pose
 python3 setup.py develop --user
-cd ../Catch2
-cmake -B build -S . -DBUILD_TESTING=OFF
-cmake --build build --parallel $(nproc)
 
 # Build NanoOWL
-sudo apt install ros-humble-image-publisher* -y
+sudo apt install ros-humble-image-publisher* vpi3-samples libnvvpi3 vpi3-dev -y
 # sudo rm -rf ~/vlm/src/nvidia/torch2trt/plugin*
 cd ~/vlm && colcon build --parallel-workers $(nproc) --symlink-install --packages-select image_tools ros2_nanoowl
 source install/setup.bash
@@ -54,7 +58,6 @@ git clone https://github.com/NVIDIA-AI-IOT/nanosam
 cd nanosam
 python3 setup.py develop --user
 mkdir -p data
-pip install timm onnxsim aiohttp ftfy regex tqdm
 
 # Export the MobileSAM mask decoder ONNX file
 cd data

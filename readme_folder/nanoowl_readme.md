@@ -2,4 +2,4 @@
 - color camera : 4
 - depth camera : 2
 
-### 
+###
