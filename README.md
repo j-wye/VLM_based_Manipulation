@@ -28,8 +28,11 @@ If you have reached this point, both the installation and environment configurat
 The following sections provide detailed usage instructions for NanoOWL and NanoSAM
 ### [Use NanoOWL](./readme_folder/nanoowl_readme.md)
 
+### Use [GG-CNN2](./readme_folder/ggcnn_readme.md)
+
 ### After Build
 ```bash
 cd ~/vlm/src/nvidia/nanoowl/examples/tree_demo
-python3 tree_demo.py --camera 2 --resolution 640x480 ../../data/owl_image_encoder_patch32.engine
+python3 tree_demo.py --camera 4 --resolution 640x480 ../../data/owl_image_encoder_patch32.engine
 ```
+

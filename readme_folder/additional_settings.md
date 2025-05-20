@@ -7,6 +7,7 @@ python3 -m pip install --user --no-cache-dir --force ~/$<TORCH_VERSION>
 python3 -m pip install $<TORCHVISION_VERSION>
 python3 -c "import torch; print(torch.__version__)"
 python3 -c "import torch, torchvision; print(torchvision.__version__)"
+pip install tensorflow==2.15.0
 ```
 - If you have a Jetpack v6.1
 ```bash
