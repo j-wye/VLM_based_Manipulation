@@ -112,7 +112,7 @@ install_opencv () {
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
   -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 \
-  -D WITH_OPENCL=OFF \
+  -D WITH_OPENCL=ON \
   -D CUDA_ARCH_BIN=${ARCH} \
   -D CUDA_ARCH_PTX=${PTX} \
   -D WITH_CUDA=ON \

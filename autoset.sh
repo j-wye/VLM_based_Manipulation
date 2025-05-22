@@ -47,6 +47,16 @@ snap connections firefox
 # Install additional packages
 sudo -H pip install -U jetson-stats
 
+# Pytorch and Torchvision installation script for Jetson Orin devices
+wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl -O torch
+wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl -O torchvision
+python3 -m pip install --user --no-cache-dir --force torch
+python3 -m pip install --user --no-cache-dir --force torchvision
+python3 -c "import torch; print(torch.__version__)"
+python3 -c "import torch, torchvision; print(torchvision.__version__)"
+pip install tensorflow==2.15.0
+echo "export CUDA_HOME=/usr/local/cuda-12.2'" >> ~/.bashrc
+
 # Opencv installation script for Jetson devices with CUDA support
 set -e
 install_opencv () {
@@ -64,36 +74,6 @@ install_opencv () {
           PTX="sm_87"
       elif [[ $model == *"Jetson Nano"* ]]; then
           echo "Detecting a regular Jetson Nano."
-	# Check GCC version
-	GCC_MAJOR_VERSION=$(gcc -dumpversion | cut -d. -f1)
-	if [[ "$GCC_MAJOR_VERSION" -ge 9 ]]; then
-		  echo ""
-		  echo "Detected GCC version $GCC_MAJOR_VERSION, which is too new for Jetson Nano CUDA compatibility."
-		  echo "OpenCV will fail to compile with this version."
-		  echo ""
-	
-		  if [ -x /usr/bin/gcc-8 ] && [ -x /usr/bin/g++-8 ]; then
-		      echo "GCC 8 is available on your system."
-	
-		      printf "Do you want to temporarily switch to GCC 8 for this installation (Y/n)? "
-		      read confirm_switch
-	
-		      if [[ "$confirm_switch" != "${confirm_switch#[Nn]}" ]]; then
-			  echo "Aborting installation as requested."
-			  exit 1
-		      fi
-	
-		      echo "Switching to GCC 8..."
-		      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80
-		      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 80
-		      sudo update-alternatives --set gcc /usr/bin/gcc-8
-		      sudo update-alternatives --set g++ /usr/bin/g++-8
-		  else
-		      echo "GCC 8 is not installed. Please install it using:"
-		      echo "  sudo apt-get install gcc-8 g++-8"
-		      exit 1
-		  fi
-	fi
           ARCH=5.3
           PTX="sm_53"
 	  # Use "-j 4" only swap space is larger than 5.5GB
@@ -114,7 +94,7 @@ install_opencv () {
       exit 1
   fi
   
-  echo "Installing OpenCV 4.10.0 on your Nano"
+  echo "Installing OpenCV 4.8.0 on your Nano"
   echo "It will take 3.5 hours !"
   
   # reveal the CUDA location
@@ -124,7 +104,12 @@ install_opencv () {
   
   # install the Jetson Nano dependencies first
   if [[ $model == *"Jetson Nano"* ]]; then
-    sudo apt-get install -y build-essential git unzip pkg-config zlib1g-dev python3-dev python3-numpy python-dev python-numpy gstreamer1.0-tools libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libtbb2 libgtk-3-dev libxine2-dev
+    sudo apt-get install -y build-essential git unzip pkg-config zlib1g-dev
+    sudo apt-get install -y python3-dev python3-numpy
+    sudo apt-get install -y python-dev python-numpy
+    sudo apt-get install -y gstreamer1.0-tools libgstreamer-plugins-base1.0-dev
+    sudo apt-get install -y libgstreamer-plugins-good1.0-dev
+    sudo apt-get install -y libtbb2 libgtk-3-dev v4l2ucp libxine2-dev
   fi
   
   if [ -f /etc/os-release ]; then
@@ -141,29 +126,46 @@ install_opencv () {
   else
       sudo apt-get install -y libavresample-dev libdc1394-22-dev
   fi
-
   # install the common dependencies
-  sudo apt-get install -y cmake libjpeg-dev libjpeg8-dev libjpeg-turbo8-dev libpng-dev libtiff-dev libglew-dev \
-  libavcodec-dev libavformat-dev libswscale-dev libgtk2.0-dev libgtk-3-dev libcanberra-gtk* libxvidcore-dev libx264-dev \
-  libtbb-dev libxine2-dev libv4l-dev v4l-utils qv4l2 libtesseract-dev libpostproc-dev libvorbis-dev libfaac-dev libmp3lame-dev \
-  libtheora-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenblas-dev libatlas-base-dev libblas-dev liblapack-dev \
-  liblapacke-dev libeigen3-dev gfortran libhdf5-dev libprotobuf-dev protobuf-compiler libgoogle-glog-dev libgflags-dev
+  sudo apt-get install -y cmake
+  sudo apt-get install -y libjpeg-dev libjpeg8-dev libjpeg-turbo8-dev
+  sudo apt-get install -y libpng-dev libtiff-dev libglew-dev
+  sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev
+  sudo apt-get install -y libgtk2.0-dev libgtk-3-dev libcanberra-gtk*
+  sudo apt-get install -y python3-pip
+  sudo apt-get install -y libxvidcore-dev libx264-dev
+  sudo apt-get install -y libtbb-dev libxine2-dev
+  sudo apt-get install -y libv4l-dev v4l-utils qv4l2
+  sudo apt-get install -y libtesseract-dev libpostproc-dev
+  sudo apt-get install -y libvorbis-dev
+  sudo apt-get install -y libfaac-dev libmp3lame-dev libtheora-dev
+  sudo apt-get install -y libopencore-amrnb-dev libopencore-amrwb-dev
+  sudo apt-get install -y libopenblas-dev libatlas-base-dev libblas-dev
+  sudo apt-get install -y liblapack-dev liblapacke-dev libeigen3-dev gfortran
+  sudo apt-get install -y libhdf5-dev libprotobuf-dev protobuf-compiler
+  sudo apt-get install -y libgoogle-glog-dev libgflags-dev
  
   # remove old versions or previous builds
   cd ~ 
   sudo rm -rf opencv*
-  # download the latest version
-  wget -O opencv.zip https://github.com/opencv/opencv/archive/4.10.0.zip 
-  wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip 
-  
+  # download the 4.8.0 version
+  wget -O opencv.zip https://github.com/opencv/opencv/archive/4.8.0.zip 
+  wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.8.0.zip 
   # unpack
   unzip opencv.zip 
   unzip opencv_contrib.zip 
-
   # Some administration to make life easier later on
-  mv opencv-4.10.0 opencv
-  mv opencv_contrib-4.10.0 opencv_contrib
-
+  mv opencv-4.8.0 opencv
+  mv opencv_contrib-4.8.0 opencv_contrib
+  # clean up the zip files
+  rm opencv.zip
+  rm opencv_contrib.zip
+  sed -i.bak \
+  's/if (weight != 1\.0)/if (weight != static_cast<T>(1.0))/g' \
+  opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
+  sed -i.bak \
+  's/if (nms_iou_threshold > 0)/if (nms_iou_threshold > static_cast<T>(0))/g' \
+  opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
   # set install dir
   cd ~/opencv
   mkdir build
@@ -221,7 +223,7 @@ install_opencv () {
   sudo apt-get update
   
   echo "Congratulations!"
-  echo "You've successfully installed OpenCV 4.10.0 on your Jetson"
+  echo "You've successfully installed OpenCV 4.8.0 on your Nano"
 }
 
 cd ~
@@ -243,6 +245,7 @@ if [ -d ~/opencv/build ]; then
 else
     install_opencv
 fi
+jetson_release
 
 # RealSense installation script
 sudo apt-get install ocl-icd-opencl-dev -y

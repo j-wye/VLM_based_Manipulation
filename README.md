@@ -14,7 +14,7 @@ bash jetson_setting.sh
 sudo jetson_clocks --store
 sudo jetson_clocks --fan
 sudo jetson_clocks --restore
-echo "alias fan_base='sudo jetson_clocks --restore'" >> ~/.bashrc
+echo "alias fan_base='sudo jetson_clocks --restore && sudo jetson_clocks'" >> ~/.bashrc
 echo "alias fan_max='sudo jetson_clocks --fan'" >> ~/.bashrc
 ```
 
@@ -28,7 +28,9 @@ If you have reached this point, both the installation and environment configurat
 The following sections provide detailed usage instructions for NanoOWL and NanoSAM
 ### [Use NanoOWL](./readme_folder/nanoowl_readme.md)
 
-### Use [GG-CNN2](./readme_folder/ggcnn_readme.md)
+### [Use GG-CNN2](./readme_folder/ggcnn_readme.md)
+
+### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md)
 
 ### After Build
 ```bash

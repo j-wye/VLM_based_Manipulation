@@ -13,7 +13,7 @@ git clone https://github.com/catchorg/Catch2.git
 # Build dependencies
 sudo apt-get install apt-utils python3-libnvinfer-dev -y
 pip install timm onnxsim aiohttp ftfy regex tqdm openai-clip
-pip install transformers matplotlib Pillow numpy==1.26.4
+pip install transformers matplotlib Pillow numpy==1.24.4
 cd Catch2
 # cmake -B build -S . -DBUILD_TESTING=OFF
 # cmake --build build --parallel $(nproc)

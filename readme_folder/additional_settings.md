@@ -3,16 +3,19 @@
 ```bash
 python3 -m pip install --upgrade pip
 sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
-python3 -m pip install --user --no-cache-dir --force ~/$<TORCH_VERSION>
-python3 -m pip install $<TORCHVISION_VERSION>
+wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl -O torch
+wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl -O torchvision
+python3 -m pip install --user --no-cache-dir --force torch
+python3 -m pip install --user --no-cache-dir --force torchvision
 python3 -c "import torch; print(torch.__version__)"
 python3 -c "import torch, torchvision; print(torchvision.__version__)"
 pip install tensorflow==2.15.0
+echo "export CUDA_HOME=/usr/local/cuda-12.2'" >> ~/.bashrc
 ```
 - If you have a Jetpack v6.1
 ```bash
 python3 -m pip install --upgrade pip
-pip install numpy==1.26.4
+pip install numpy==1.24.4
 pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu126
 ```
 
@@ -37,6 +40,15 @@ bash opencv_setting_4.10.sh
     opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
     -            if (nms_iou_threshold > 0) {
     +            if (nms_iou_threshold > static_cast<T>(0)) {
+    ```
+    ```bash
+    # test for terminal command
+    sed -i \
+      's/if (weight != 1\.0)/if (weight != static_cast<T>(1.0))/g' \
+      opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
+    sed -i \
+      's/if (nms_iou_threshold > 0)/if (nms_iou_threshold > static_cast<T>(0))/g' \
+      opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
     ```
 
 ### Realsense Installation
