@@ -103,6 +103,12 @@ install_opencv () {
   rm opencv_contrib.zip
   
   # set install dir
+  sed -i \
+    's/if (weight != 1\.0)/if (weight != static_cast<T>(1.0))/g' \
+    opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
+  sed -i \
+    's/if (nms_iou_threshold > 0)/if (nms_iou_threshold > static_cast<T>(0))/g' \
+    opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
   cd ~/opencv
   mkdir build
   cd build
