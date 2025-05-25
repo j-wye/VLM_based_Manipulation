@@ -11,9 +11,9 @@ git clone https://github.com/NVIDIA-AI-IOT/trt_pose
 git clone https://github.com/catchorg/Catch2.git
 
 # Build dependencies
-sudo apt-get install apt-utils python3-libnvinfer-dev -y
+sudo apt-get install apt-utils python3-libnvinfer-dev python3-matplotlib -y
 pip install timm onnxsim aiohttp ftfy regex tqdm openai-clip
-pip install transformers matplotlib Pillow numpy==1.24.4
+pip install transformers matplotlib Pillow numpy==1.24.4 tqdm cython pycocotools
 cd Catch2
 # cmake -B build -S . -DBUILD_TESTING=OFF
 # cmake --build build --parallel $(nproc)
@@ -25,14 +25,14 @@ python3 setup.py install --user --plugins
 cd ../nanoowl
 pip3 install .
 cd ../trt_pose
-python3 setup.py develop --user
+python3 setup.py install --user
 
 # Build NanoOWL
 sudo apt install ros-humble-image-publisher* vpi3-samples libnvvpi3 vpi3-dev -y
 # sudo rm -rf ~/vlm/src/nvidia/torch2trt/plugin*
 cd ~/vlm && colcon build --parallel-workers $(nproc) --symlink-install --packages-select image_tools ros2_nanoowl
 source install/setup.bash
-echo "source ~/vlm/install/setup.bash" >> ~/.bashrc
+# echo "source ~/vlm/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 cd ~/vlm/src/nvidia/nanoowl
 mkdir -p data

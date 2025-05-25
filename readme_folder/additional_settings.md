@@ -1,17 +1,29 @@
 ### Pytorch, Torchvision Install
 - Find your **pytorch & torchvision** version and go to [here](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) and download version which right for you (If ***Jetpack version <= 6.0***)
 ```bash
+echo "export CUDA_HOME=/usr/local/cuda-12.2" >> ~/.bashrc
 python3 -m pip install --upgrade pip
+pip install numpy==1.24.4 dash==3.0.4 "Werkzeug<3.1"
 sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
 wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl -O torch
 wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl -O torchvision
+wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl -O tensorflow
 python3 -m pip install --user --no-cache-dir --force torch
 python3 -m pip install --user --no-cache-dir --force torchvision
+python3 -m pip install --user --no-cache-dir --force tensorflow
 python3 -c "import torch; print(torch.__version__)"
-python3 -c "import torch, torchvision; print(torchvision.__version__)"
-pip install tensorflow==2.15.0
+python3 -c "import torch; print(torch.cuda.is_available())"
+python3 -c "import torchvision; print(torchvision.__version__)"
+python3 -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())"
 echo "export CUDA_HOME=/usr/local/cuda-12.2'" >> ~/.bashrc
 ```
+
+additional Check for Tensorflow
+```python
+import tensorflow as tf
+print(f'Num GPUs Available: {len(tf.config.list_physical_devices("GPU"))}')
+```
+
 - If you have a Jetpack v6.1
 ```bash
 python3 -m pip install --upgrade pip

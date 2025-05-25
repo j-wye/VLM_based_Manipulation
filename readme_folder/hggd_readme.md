@@ -130,9 +130,9 @@ else
 fi
 
 make -j$(nproc)
-make install
+sudo make install
 make python-package
-pip install --ignore-installed lib/python_package
+python3 -m pip install --ignore-installed lib/python_package
 source ~/.bashrc
 python -c "import open3d as o3d; print(o3d.__version__); print(o3d.core.cuda.is_available())"
 ```
