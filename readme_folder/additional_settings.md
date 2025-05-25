@@ -3,19 +3,37 @@
 ```bash
 echo "export CUDA_HOME=/usr/local/cuda-12.2" >> ~/.bashrc
 python3 -m pip install --upgrade pip
-pip install numpy==1.24.4 dash==3.0.4 "Werkzeug<3.1"
+# 이건 좀 나중에 설치해야 하는듯 바로 안됨
+# pip install numpy==1.24.4 dash==3.0.4 "Werkzeug<3.1"
 sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
-wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl -O torch
-wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl -O torchvision
-wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl -O tensorflow
-python3 -m pip install --user --no-cache-dir --force torch
-python3 -m pip install --user --no-cache-dir --force torchvision
-python3 -m pip install --user --no-cache-dir --force tensorflow
+# Torch 2.3.0
+wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
+# Torchvision 0.18.0
+wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
+# Tensorflow 2.15.0
+wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
+```
+
+- First of all, you have to install Miniconda
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.3.1-1-Linux-aarch64.sh
+bash Miniconda3-py39_25.3.1-1-Linux-aarch64.sh
+```
+
+then install torch, torchvision, tensorflow after creating conda environment:
+```bash
+pip install dash
+pip install mp164asf3sceb570wvjsrezk1p4ftj8t.whl
+pip install xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
+pip install tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
+```
+
+Enter bottom commands, then can check installation is successful:
+```bash
 python3 -c "import torch; print(torch.__version__)"
 python3 -c "import torch; print(torch.cuda.is_available())"
 python3 -c "import torchvision; print(torchvision.__version__)"
 python3 -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())"
-echo "export CUDA_HOME=/usr/local/cuda-12.2'" >> ~/.bashrc
 ```
 
 additional Check for Tensorflow
@@ -36,6 +54,12 @@ pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https
 # OpenCV Version 4.8.0 with Jetpack 6.0
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/opencv_setting_4.8.sh
 bash opencv_setting_4.8.sh
+sed -i \
+  's/if (weight != 1\.0)/if (weight != static_cast<T>(1.0))/g' \
+  opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
+sed -i \
+  's/if (nms_iou_threshold > 0)/if (nms_iou_threshold > static_cast<T>(0))/g' \
+  opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
 
 # OpenCV Version 4.10.0 with over than Jetpack 6.1
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/opencv_setting_4.10.sh
