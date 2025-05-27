@@ -1,19 +1,45 @@
-### NanoOWL Build
+### ROS2 NanoOWL
+---
+#### Setup
+1. Clone required projects under `vlm/src/nvidia` :
 ```bash
 cd && mkdir -p vlm/src/nvidia
-cd vlm/src/nvidia
+cd ~/vlm/src/nvidia
 git clone https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
 git clone https://github.com/NVIDIA-AI-IOT/ROS2-NanoOWL.git
 git clone https://github.com/NVIDIA-AI-IOT/nanoowl
 git clone https://github.com/NVIDIA-AI-IOT/torch2trt
 git clone --branch humble https://github.com/ros2/demos.git
-git clone https://github.com/NVIDIA-AI-IOT/trt_pose
 git clone https://github.com/catchorg/Catch2.git
+```
+2. Install Dependencies:
+  - Pytorch : It should already be installed, so verify with using the code below:
+    ```bash
+    python3 -c "import torch; print(torch.__version__)"
+    python3 -c "import torch; print(torch.cuda.is_available())"
+    python3 -c "import torchvision; print(torchvision.__version__)"
+    python3 -c "import tensorflow as tf; print(tf.test.is_built_with_cuda())"
+    ```
+  - TensorRT : If you installed using Jetpack, it should have been installed automatically so verify with using the code below.
+    ```bash
+    python3 -c "import tensorrt; print(tensorrt.__version__)"
+    ```
+  - Torchvision : 
+    ```bash
+    sudo apt install nvidia-cuda-dev
+    pip install ninja
+    sudo apt-get install ninja-build
+    git clone --branch v<VERSION> https://github.com/pytorch/vision.git
+    cd vision
+    pip install .
+    ```
 
+
+```bash
 # Build dependencies
-sudo apt-get install apt-utils python3-libnvinfer-dev python3-matplotlib -y
+sudo apt-get install apt-utils python3-libnvinfer-dev python3-matplotlib ros-humble-ros-testing -y
 pip install timm onnxsim aiohttp ftfy regex tqdm openai-clip
-pip install transformers matplotlib Pillow numpy==1.24.4 tqdm cython pycocotools
+pip install transformers==4.22.0 matplotlib Pillow numpy==1.24.4 tqdm cython pycocotools
 cd Catch2
 # cmake -B build -S . -DBUILD_TESTING=OFF
 # cmake --build build --parallel $(nproc)
@@ -21,16 +47,21 @@ cmake -Bbuild -H. -DBUILD_TESTING=OFF
 sudo cmake --build build/ --target install --parallel $(nproc)
 cd ../torch2trt
 sed -i '29,$d' CMakeLists.txt
-python3 setup.py install --user --plugins
+# cmake -B build . && cmake --build build
+# sudo cmake --build build --target install
+# sudo ldconfig
+pip install .
+# cd ../trt_pose
+# python3 setup.py install --user
 cd ../nanoowl
-pip3 install .
-cd ../trt_pose
-python3 setup.py install --user
+# pip3 install -e . --user
+# sudo python3 setup.py develop --user
+python3 setup.py develop --user
 
 # Build NanoOWL
 sudo apt install ros-humble-image-publisher* vpi3-samples libnvvpi3 vpi3-dev -y
 # sudo rm -rf ~/vlm/src/nvidia/torch2trt/plugin*
-cd ~/vlm && colcon build --parallel-workers $(nproc) --symlink-install --packages-select image_tools ros2_nanoowl
+cd ~/vlm && colcon build --parallel-workers $(nproc) --packages-select image_tools nanoowl
 source install/setup.bash
 # echo "source ~/vlm/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc

@@ -156,7 +156,7 @@ install_opencv () {
   -D CMAKE_CXX_FLAGS="-march=native -mtune=native" \
   -D CMAKE_C_FLAGS="-march=native -mtune=native" ..
  
-  make -j ${NO_JOB} 
+  make -j${nproc}
   
   directory="/usr/include/opencv4/opencv2"
   if [ -d "$directory" ]; then
@@ -164,7 +164,7 @@ install_opencv () {
     sudo rm -rf "$directory"
   fi
   
-  sudo make install
+  make install
   sudo ldconfig
   
   # cleaning (frees 320 MB)

@@ -130,7 +130,7 @@ else
 fi
 
 make -j$(nproc)
-sudo make install
+make install
 make python-package
 python3 -m pip install --ignore-installed lib/python_package
 source ~/.bashrc

@@ -156,7 +156,6 @@ install_opencv () {
     # Directory exists, so delete it
     sudo rm -rf "$directory"
   fi
-  
   sudo make install
   sudo ldconfig
   
