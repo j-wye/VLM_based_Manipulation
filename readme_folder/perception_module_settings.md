@@ -13,7 +13,7 @@ git clone --branch humble https://github.com/ros2/demos.git
 git clone https://github.com/catchorg/Catch2.git
 ```
 2. Install Dependencies:
-  - Pytorch : It should already be installed, so verify with using the code below:
+  - Pytorch, Torchvision, Tensorflow : It should already be installed, so verify with using the code below:
     ```bash
     python3 -c "import torch; print(torch.__version__)"
     python3 -c "import torch; print(torch.cuda.is_available())"
@@ -24,15 +24,8 @@ git clone https://github.com/catchorg/Catch2.git
     ```bash
     python3 -c "import tensorrt; print(tensorrt.__version__)"
     ```
-  - Torchvision : 
-    ```bash
-    sudo apt install nvidia-cuda-dev
-    pip install ninja
-    sudo apt-get install ninja-build
-    git clone --branch v<VERSION> https://github.com/pytorch/vision.git
-    cd vision
-    pip install .
-    ```
+  - 
+  - 
 
 
 ```bash

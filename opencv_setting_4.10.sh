@@ -164,7 +164,7 @@ install_opencv () {
     sudo rm -rf "$directory"
   fi
   
-  make install
+  sudo make install
   sudo ldconfig
   
   # cleaning (frees 320 MB)

@@ -12,7 +12,7 @@ wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
 # Torchvision 0.18.0
 wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
 # Tensorflow 2.15.0
-wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
+wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.02-cp310-cp310-linux_aarch64.whl
 pip install mp164asf3sceb570wvjsrezk1p4ftj8t.whl
 pip install xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
 pip install tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
@@ -27,14 +27,13 @@ wget https://developer.download.nvidia.com/compute/cusparselt/0.7.1/local_instal
 sudo dpkg -i cusparselt-local-tegra-repo-ubuntu2204-0.7.1_1.0-1_arm64.deb
 sudo cp /var/cusparselt-local-tegra-repo-ubuntu2204-0.7.1/cusparselt-*-keyring.gpg /usr/share/keyrings/
 sudo apt-get update
-sudo apt-get -y install libcusparselt0 libcusparselt-dev
+sudo apt-get -y install libcusparselt0 libcusparselt-dev nvidia-cuda-devninja-build
+pip install ninja
+
 pip install --user --no-cache-dir torch-2.5.0a0+872d972e41.nv24.08.17622132-cp310-cp310-linux_aarch64.whl
-# pip install --user --no-cache-dir torchvision-0.20.0-cp310-cp310-linux_aarch64.whl
-git clone -b v0.20.0 https://github.com/pytorch/vision.git
+git clone --branch v0.20.0 https://github.com/pytorch/vision.git
 cd vision
-export TORCH_CUDA_ARCH_LIST="8.7"
-python3 setup.py install --user
-pip install --user --no-cache-dir tensorflow-2.16.1+nv24.08-cp310-cp310-linux_aarch64.whl
+pip install .
 ```
 
 - If you want to use Miniconda:
@@ -42,14 +41,6 @@ pip install --user --no-cache-dir tensorflow-2.16.1+nv24.08-cp310-cp310-linux_aa
 cd ~/A
 wget https://repo.anaconda.com/miniconda/Miniconda3-py39_25.3.1-1-Linux-aarch64.sh
 bash Miniconda3-py39_25.3.1-1-Linux-aarch64.sh
-```
-
-then install torch, torchvision, tensorflow after creating conda environment:
-```bash
-pip install dash
-pip install mp164asf3sceb570wvjsrezk1p4ftj8t.whl
-pip install xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
-pip install tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
 ```
 
 Enter bottom commands, then can check installation is successful:
@@ -76,27 +67,6 @@ bash opencv_setting_4.8.sh
 wget https://raw.githubusercontent.com/j-wye/VLM_based_Manipulation/refs/heads/main/opencv_setting_4.10.sh
 bash opencv_setting_4.10.sh
 ```
-
-- if you have a problem follows:
-    ```bash
-    opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
-    -            if (weight != 1.0)
-    +            if (weight != static_cast<T>(1.0))
-    ```
-    ```bash
-    opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
-    -            if (nms_iou_threshold > 0) {
-    +            if (nms_iou_threshold > static_cast<T>(0)) {
-    ```
-    ```bash
-    # test for terminal command
-    sed -i \
-      's/if (weight != 1\.0)/if (weight != static_cast<T>(1.0))/g' \
-      opencv/modules/dnn/src/cuda4dnn/primitives/normalize_bbox.hpp
-    sed -i \
-      's/if (nms_iou_threshold > 0)/if (nms_iou_threshold > static_cast<T>(0))/g' \
-      opencv/modules/dnn/src/cuda4dnn/primitives/region.hpp
-    ```
 
 ### Realsense Installation
 ```bash
