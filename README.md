@@ -46,6 +46,7 @@ The following sections provide detailed usage instructions for **#### 여기에 
 
 <!-- ### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md) -->
 
+### [Grounded-SAM-2](./readme_folder/grounded_sam_2.md)
 
 ---
 # Have to Modify Algorithm
