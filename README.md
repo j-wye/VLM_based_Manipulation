@@ -16,6 +16,7 @@ sudo jetson_clocks --fan
 sudo jetson_clocks --restore
 echo "alias fan_base='sudo jetson_clocks --restore && sudo jetson_clocks'" >> ~/.bashrc
 echo "alias fan_max='sudo jetson_clocks --fan'" >> ~/.bashrc
+echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bashrc
 ```
 
 ### [Pytorch, Torchvision, OpenCV with Cuda, Realsense source Installation](./readme_folder/additional_settings.md)
@@ -38,3 +39,24 @@ cd ~/vlm/src/nvidia/nanoowl/examples/tree_demo
 python3 tree_demo.py --camera 4 --resolution 640x480 ../../data/owl_image_encoder_patch32.engine
 ```
 
+
+# Have to Modify Algorithm
+- Integrated Model
+    - CLIP-SEG
+    - EfficientViT (EfficientViT_SAM, EfficientViT_SEG)
+    - Grounded-SAM-2
+
+- Natural Language Processing
+    - Grounding DINO
+    - Grounding DINO edge
+    - OWL-ViT
+    - OWL-ViT-Tiny
+
+- Segmentation
+    - NanoSAM
+    - MobileSAMv2
+    - EdgeSAM
+
+- Additional Algorithm and Methodologies for IROS or ICRA
+    - Yolo SAHI
+    - OWLv2

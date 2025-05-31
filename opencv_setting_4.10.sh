@@ -10,7 +10,7 @@ install_opencv () {
       if [[ $model == *"Orin"* ]]; then
           echo "Detecting a Jetson Nano Orin."
 	  # Use always "-j 4"
-          NO_JOB=6
+          NO_JOB=4
           ARCH=8.7
           PTX="sm_87"
       elif [[ $model == *"Jetson Nano"* ]]; then
@@ -141,7 +141,7 @@ install_opencv () {
   -D WITH_FFMPEG=ON \
   -D WITH_GSTREAMER=ON \
   -D WITH_TBB=ON \
-  -D BUILD_TBB=ON \
+  -D BUILD_TBB=OFF \
   -D BUILD_TESTS=OFF \
   -D WITH_EIGEN=ON \
   -D WITH_V4L=ON \

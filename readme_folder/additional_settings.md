@@ -70,7 +70,7 @@ bash opencv_setting_4.10.sh
 
 ### Realsense Installation
 ```bash
-sudo apt-get install ocl-icd-opencl-dev -y
+sudo apt-get install ocl-icd-opencl-dev ros-humble-ros-testing python3-tqdm -y
 git clone https://github.com/IntelRealSense/librealsense.git
 cd librealsense
 mkdir build && cd build

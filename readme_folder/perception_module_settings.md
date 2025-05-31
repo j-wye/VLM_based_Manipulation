@@ -24,8 +24,59 @@ git clone https://github.com/catchorg/Catch2.git
     ```bash
     python3 -c "import tensorrt; print(tensorrt.__version__)"
     ```
-  - 
-  - 
+  - Python Dependencies :
+    ```bash
+    pip install transformers matplotlib
+    ```
+
+3. Install Related Packages before install ROS2-NanoOWL
+  - Catch2 :
+    ```bash
+    cd Catch2
+    cmake -Bbuild -H. -DBUILD_TESTING=OFF
+    sudo cmake --build build/ --target install --parallel $(nproc)
+    ```
+  - torch2trt :
+    ```bash
+    cd ../torch2trt
+    sed -i '29,$d' CMakeLists.txt
+    pip install .
+    ```
+  - NanoOWL :
+    ```bash
+    cd ../nanoowl
+    pip install .
+    ```
+  - cam2image :
+    ```bash
+    cd ~/vlm
+    colcon build --symlink-install --packages-select image_tools --parallel-workers $(nproc)
+    source install/setup.bash
+    ```
+
+4. Build ros2_nanoowl
+```bash
+cd ~/vlm
+colcon build --parallel-workers $(nproc) --symlink-install --packages-select ros2_nanoowl
+source install/setup.bash
+```
+
+5. Build the TensorRT engine for the OWL-ViT vision encoder - this step may take a few minutes and copy this to ROS2-NanoOWL folder:
+```bash
+pip install transformers==4.22.0 numpy==1.24.4 onnxsim onnx tqdm cython
+cd ~/vlm/src/nvidia/nanoowl
+mkdir -p data
+python3 -m nanoowl.build_image_encoder_engine data/owl_image_encoder_patch32.engine \
+  --model_name google/owlvit-base-patch32 \
+  --fp16_mode True \
+  --onnx_opset 16
+python3 -m nanoowl.build_image_encoder_engine data/owl_image_encoder_patch16.engine \
+  --model_name google/owlvit-base-patch16 \
+  --fp16_mode True \
+  --onnx_opset 16
+cp -r data/* ../ROS2-NanoOWL
+```
+
 
 
 ```bash
