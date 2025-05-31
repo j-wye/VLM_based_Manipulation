@@ -8,15 +8,15 @@ mkdir ~vlm/src/nvidia
 <summary>1. Install Dependencies</summary>
 
 > 1. install Pytorch
->>2. install torch2trt
-    ```bash
+> 2. install torch2trt
+    >> ```bash
     cd ~/vlm/src/nvidia
     git clone https://github.com/NVIDIA-AI-IOT/torch2trt
     cd torch2trt
     sed -i '29,$d' CMakeLists.txt
     pip install .
     ```
-3. install NVIDIA TensorRT
+> 3. install NVIDIA TensorRT
 4. install TRTPose
     ```bash
     sudo pip3 install tqdm cython pycocotools
