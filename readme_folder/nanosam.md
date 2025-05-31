@@ -1,6 +1,6 @@
 ### NanoSAM
 ---
-#### Setup
+### Setup
 ```bash
 mkdir ~vlm/src/nvidia
 ```
@@ -35,7 +35,8 @@ mkdir ~vlm/src/nvidia
 
 
 <details>
-<summary>2. Install NanoSAM python package</summary>
+<summary>
+<h3>2. Install NanoSAM python package</h3></summary>
 
 ```bash
 cd ~/vlm/src/nvidia
