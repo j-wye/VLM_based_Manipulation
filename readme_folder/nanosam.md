@@ -1,11 +1,13 @@
-### NanoSAM
+# NanoSAM
 ---
-### Setup
+## Setup
 ```bash
 mkdir ~vlm/src/nvidia
 ```
 <details>
-<summary>1. Install Dependencies</summary>
+<summary>
+<h3>1. Install Dependencies</h3>
+</summary>
 
 1. install Pytorch
 2. install torch2trt
