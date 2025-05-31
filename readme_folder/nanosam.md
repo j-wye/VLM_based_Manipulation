@@ -33,14 +33,19 @@ mkdir ~vlm/src/nvidia
     ```
 </details>
 
-2. Install NanoSAM python package
+
+<details>
+<summary>2. Install NanoSAM python package</summary>
     ```bash
     cd ~/vlm/src/nvidia
     git clone https://github.com/NVIDIA-AI-IOT/nanosam
     cd nanosam
     python3 setup.py develop --user
     ```
-3. Build the TensorRT engine for the mask decoder
+</details>
+
+<details>
+<summary>3. Build the TensorRT engine for the mask decoder</summary>
     1. Download mask decoder and image encoder ONNX file
         ```bash
         cd ~/vlm/src/nvidia/nanosam
@@ -65,9 +70,14 @@ mkdir ~vlm/src/nvidia
             --saveEngine=data/resnet18_image_encoder.engine \
             --fp16
         ```
-4. Run the basic usage example
+</details>
+
+<details>
+<summary>4. Run the basic usage example</summary>
     ```bash
     python3 examples/basic_usage.py \
     --image_encoder=data/resnet18_image_encoder.engine \
     --mask_decoder=data/mobile_sam_mask_decoder.engine
     ```
+</details>
+
