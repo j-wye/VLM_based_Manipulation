@@ -1,10 +1,9 @@
 # Vision Language Manipulation
 
----
-
 ## Basic Settings
+
 <details>
-<summary> Basic Setting Informations</summary>
+<summary>Informations</summary>
 
 |Embedded Board|Jetpack Version|CUDA|PyTorch|Torchvision|Tensorflow|
 |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -28,34 +27,31 @@ echo "alias fan_base='sudo jetson_clocks --restore && sudo jetson_clocks'" >> ~/
 echo "alias fan_max='sudo jetson_clocks --fan'" >> ~/.bashrc
 echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bashrc
 ```
+</details>
 
 ### [Pytorch, Torchvision, OpenCV with Cuda, Realsense source Installation](./readme_folder/additional_settings.md)
 
-### [ROS2-NanoOWL and NanoSAM Build](./readme_folder/perception_module_settings.md)
+<!-- ### [ROS2-NanoOWL and NanoSAM Build](./readme_folder/perception_module_settings.md) -->
+### [NanoSAM Build](./readme_folder/nanosam.md)
 
 ---
 
 If you have reached this point, both the installation and environment configuration have been successfully completed
 
-The following sections provide detailed usage instructions for NanoOWL and NanoSAM
+The following sections provide detailed usage instructions for **#### 여기에 detection 알고리즘 선정하면 추가할것** NanoSAM
 
-### [Use NanoOWL](./readme_folder/nanoowl_readme.md)
+<!-- ### [Use NanoOWL](./readme_folder/nanoowl_readme.md) -->
 
-### [Use GG-CNN2](./readme_folder/ggcnn_readme.md)
+<!-- ### [Use GG-CNN2](./readme_folder/ggcnn_readme.md) -->
 
-### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md)
-
-### After Build
-```bash
-cd ~/vlm/src/nvidia/nanoowl/examples/tree_demo
-python3 tree_demo.py --camera 4 --resolution 640x480 ../../data/owl_image_encoder_patch32.engine
-```
+<!-- ### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md) -->
 
 
+---
 # Have to Modify Algorithm
 - Integrated Model
     - CLIP-SEG
-    - EfficientViT (EfficientViT_SAM, EfficientViT_SEG)
+    - EfficientViT-SAM
     - Grounded-SAM-2
 
 - Natural Language Processing

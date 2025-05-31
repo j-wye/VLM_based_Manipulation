@@ -1,4 +1,5 @@
 ### Pytorch, Torchvision Install
+
 <details>
 <summary>Jetpack 6.0 Installation</summary>
 
