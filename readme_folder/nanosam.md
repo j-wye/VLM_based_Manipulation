@@ -4,21 +4,35 @@
 ```bash
 mkdir ~vlm/src/nvidia
 ```
-1. Install Dependencies
-    1. install Pytorch
-    2. install torch2trt
-    3. install NVIDIA TensorRT
-    4. install TRTPose
-        ```bash
-        cd ~/vlm/src/nvidia
-        git clone https://github.com/NVIDIA-AI-IOT/trt_pose
-        cd trt_pose
-        python3 setup.py develop --user
-        ```
-    5. install the Transformers library 
-        ```bash
-        pip install transformers
-        ```
+<details>
+<summary>1. Install Dependencies</summary>
+
+1. install Pytorch
+2. install torch2trt
+    ```bash
+    cd ~/vlm/src/nvidia
+    git clone https://github.com/NVIDIA-AI-IOT/torch2trt
+    cd torch2trt
+    sed -i '29,$d' CMakeLists.txt
+    pip install .
+    ```
+3. install NVIDIA TensorRT
+4. install TRTPose
+    ```bash
+    sudo pip3 install tqdm cython pycocotools
+    sudo apt-get install python3-matplotlib
+
+    cd ~/vlm/src/nvidia
+    git clone https://github.com/NVIDIA-AI-IOT/trt_pose
+    cd trt_pose
+    sudo python3 setup.py install
+    ```
+5. install the Transformers library 
+    ```bash
+    pip install transformers
+    ```
+</details>
+
 2. Install NanoSAM python package
     ```bash
     cd ~/vlm/src/nvidia
