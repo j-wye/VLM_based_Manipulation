@@ -7,7 +7,7 @@ mkdir ~vlm/src/nvidia
 <details>
 <summary>1. Install Dependencies</summary>
 
-> 1. install Pytorch
+1. install Pytorch
 > 2. install torch2trt
 >> ```bash
 >> cd ~/vlm/src/nvidia
