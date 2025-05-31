@@ -85,3 +85,4 @@ mkdir ~vlm/src/nvidia
     ```
 </details>
 
+trtexec --onnx=model.onnx --saveEngine=model.engine --fp16 && trtexec --onnx=model.onnx --saveEngine=model.engine --int8
