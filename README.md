@@ -40,8 +40,6 @@ If you have reached this point, both the installation and environment configurat
 
 The following sections provide detailed usage instructions for **#### 여기에 detection 알고리즘 선정하면 추가할것** NanoSAM
 
-<!-- ### [Use NanoOWL](./readme_folder/nanoowl_readme.md) -->
-
 <!-- ### [Use GG-CNN2](./readme_folder/ggcnn_readme.md) -->
 
 <!-- ### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md) -->
@@ -69,3 +67,8 @@ The following sections provide detailed usage instructions for **#### 여기에 
 - Additional Algorithm and Methodologies for IROS or ICRA
     - Yolo SAHI
     - OWLv2
+
+
+
+
+

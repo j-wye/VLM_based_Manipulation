@@ -50,15 +50,17 @@
   pip install .
 
   # Install tensorflow
+  cd
   pip install --user --no-cache-dir tensorflow-2.16.1+nv24.08-cp310-cp310-linux_aarch64.whl
   ```
 
 - *If you have an error about libcusparselt*:
   ```bash
-  sudo apt-get -y install libcusparselt0 libcusparselt-dev nvidia-cuda-devninja-build
+  sudo apt-get -y install libcusparselt0 libcusparselt-dev nvidia-cuda-dev ninja-build
   wget https://developer.download.nvidia.com/compute/cusparselt/0.7.1/local_installers/cusparselt-local-tegra-repo-ubuntu2204-0.7.1_1.0-1_arm64.deb
   sudo dpkg -i cusparselt-local-tegra-repo-ubuntu2204-0.7.1_1.0-1_arm64.deb
   sudo cp /var/cusparselt-local-tegra-repo-ubuntu2204-0.7.1/cusparselt-*-keyring.gpg /usr/share/keyrings/
+  sudo ldconfig
   ```
 </details>
 

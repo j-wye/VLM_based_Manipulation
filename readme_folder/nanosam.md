@@ -61,7 +61,16 @@ mkdir ~vlm/src/nvidia
     # Build decoder TensorRT engine
     trtexec \
         --onnx=data/mobile_sam_mask_decoder.onnx \
-        --saveEngine=data/mobile_sam_mask_decoder.engine \
+        --saveEngine=data/mobile_sam_mask_decoder_fp16.engine \
+        --fp16 \
+        --minShapes=point_coords:1x1x2,point_labels:1x1 \
+        --optShapes=point_coords:1x1x2,point_labels:1x1 \
+        --maxShapes=point_coords:1x10x2,point_labels:1x10
+    
+    trtexec \
+        --onnx=data/mobile_sam_mask_decoder.onnx \
+        --saveEngine=data/mobile_sam_mask_decoder_int8.engine \
+        --int8 \
         --minShapes=point_coords:1x1x2,point_labels:1x1 \
         --optShapes=point_coords:1x1x2,point_labels:1x1 \
         --maxShapes=point_coords:1x10x2,point_labels:1x10
@@ -69,8 +78,13 @@ mkdir ~vlm/src/nvidia
     # Build encoder TensorRT engine
     trtexec \
         --onnx=data/resnet18_image_encoder.onnx \
-        --saveEngine=data/resnet18_image_encoder.engine \
+        --saveEngine=data/resnet18_image_encoder_fp16.engine \
         --fp16
+    
+    trtexec \
+        --onnx=data/resnet18_image_encoder.onnx \
+        --saveEngine=data/resnet18_image_encoder_int8.engine \
+        --int8
     ```
 </details>
 
@@ -85,6 +99,7 @@ mkdir ~vlm/src/nvidia
     ```
 </details>
 
+```bash
 trtexec \
     --onnx=model.onnx \
     --saveEngine=model.engine \
@@ -109,3 +124,4 @@ trtexec \
     --onnx=model_quantized.onnx \
     --saveEngine=model_quantized.engine \
     --int8
+```
