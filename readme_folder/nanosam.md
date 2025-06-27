@@ -1,4 +1,4 @@
-# NanoSAM
+# NanoSAM (Want to use DLA1)
 
 ## Setup
 ```bash
@@ -52,39 +52,68 @@ mkdir ~vlm/src/nvidia
     ```bash
     cd ~/vlm/src/nvidia/nanosam
     mkdir -p data
-    wget https://files.anjara.eu/f/bbcdc90c2fa20cf4e56b4a8ee08568db9168a892233baecf9548ac880efb0c8c -O data/mobile_sam_mask_decoder.onnx
-    wget https://files.anjara.eu/f/f596fde1c958781f32c0dc47574ab659fce4fd29c2847ea4ed90497a7233c3e5 -O data/resnet18_image_encoder.onnx
+    wget https://files.anjara.eu/f/bbcdc90c2fa20cf4e56b4a8ee08568db9168a892233baecf9548ac880efb0c8c -O data/mask_decoder.onnx
+    wget https://files.anjara.eu/f/f596fde1c958781f32c0dc47574ab659fce4fd29c2847ea4ed90497a7233c3e5 -O data/image_encoder.onnx
     ```
-- ii. Build TensorRT engine
+ 
+- ii. Build TensorRT engine with **`Jetson AGX Orin 64GB`**
     ```bash
     echo "export PATH=/usr/src/tensorrt/bin:$PATH" ~/.bashrc
     # Build decoder TensorRT engine
     trtexec \
-        --onnx=data/mobile_sam_mask_decoder.onnx \
-        --saveEngine=data/mobile_sam_mask_decoder_fp16.engine \
+        --onnx=data/mask_decoder.onnx \
+        --saveEngine=data/mask_decoder_fp16.engine \
         --fp16 \
         --minShapes=point_coords:1x1x2,point_labels:1x1 \
         --optShapes=point_coords:1x1x2,point_labels:1x1 \
-        --maxShapes=point_coords:1x10x2,point_labels:1x10
+        --maxShapes=point_coords:1x10x2,point_labels:1x10 \
+        --memPoolSize=workspace:49152 \
+        --useDLACore=1 \
+        --allowGPUFallback \
+        --builderOptimizationLevel=5 \
+        --minTiming=8 \
+        --avgTiming=16 \
+        --timingCacheFile=./decoder_build.cache
     
     trtexec \
-        --onnx=data/mobile_sam_mask_decoder.onnx \
-        --saveEngine=data/mobile_sam_mask_decoder_int8.engine \
+        --onnx=data/mask_decoder.onnx \
+        --saveEngine=data/mask_decoder_int8.engine \
         --int8 \
         --minShapes=point_coords:1x1x2,point_labels:1x1 \
         --optShapes=point_coords:1x1x2,point_labels:1x1 \
-        --maxShapes=point_coords:1x10x2,point_labels:1x10
+        --maxShapes=point_coords:1x10x2,point_labels:1x10 \
+        --memPoolSize=workspace:49152 \
+        --useDLACore=1 \
+        --allowGPUFallback \
+        --builderOptimizationLevel=5 \
+        --minTiming=8 \
+        --avgTiming=16 \
+        --timingCacheFile=./decoder_build.cache
 
     # Build encoder TensorRT engine
     trtexec \
-        --onnx=data/resnet18_image_encoder.onnx \
-        --saveEngine=data/resnet18_image_encoder_fp16.engine \
-        --fp16
+        --onnx=data/image_encoder.onnx \
+        --saveEngine=data/image_encoder_fp16.engine \
+        --fp16 \
+        --memPoolSize=workspace:49152 \
+        --useDLACore=1 \
+        --allowGPUFallback \
+        --builderOptimizationLevel=5 \
+        --minTiming=8 \
+        --avgTiming=16 \
+        --timingCacheFile=./encoder_build.cache
     
     trtexec \
-        --onnx=data/resnet18_image_encoder.onnx \
-        --saveEngine=data/resnet18_image_encoder_int8.engine \
-        --int8
+        --onnx=data/image_encoder.onnx \
+        --saveEngine=data/image_encoder_int8.engine \
+        --int8 \
+        --memPoolSize=workspace:49152 \
+        --useDLACore=1 \
+        --allowGPUFallback \
+        --builderOptimizationLevel=5 \
+        --minTiming=8 \
+        --avgTiming=16 \
+        --timingCacheFile=./encoder_build.cache
     ```
 </details>
 
@@ -94,34 +123,7 @@ mkdir ~vlm/src/nvidia
 - i. Run NanoSAM with below code:
     ```bash
     python3 examples/basic_usage.py \
-    --image_encoder=data/resnet18_image_encoder.engine \
-    --mask_decoder=data/mobile_sam_mask_decoder.engine
+    --image_encoder=data/image_encoder_fp16.engine \
+    --mask_decoder=data/mask_decoder_int8.engine
     ```
 </details>
-
-```bash
-trtexec \
-    --onnx=model.onnx \
-    --saveEngine=model.engine \
-    --fp16
-trtexec \
-    --onnx=model_fp16.onnx \
-    --saveEngine=model_fp16.engine \
-    --fp16
-trtexec \
-    --onnx=model_int8.onnx \
-    --saveEngine=model_int8.engine \
-    --fp16
-trtexec \
-    --onnx=model_q4.onnx \
-    --saveEngine=model_q4.engine \
-    --fp16
-trtexec \
-    --onnx=model_q4f16.onnx \
-    --saveEngine=model_q4f16.engine \
-    --fp16
-trtexec \
-    --onnx=model_quantized.onnx \
-    --saveEngine=model_quantized.engine \
-    --int8
-```

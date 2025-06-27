@@ -31,7 +31,15 @@ echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bash
 
 ### [Pytorch, Torchvision, OpenCV with Cuda, Realsense source Installation](./readme_folder/additional_settings.md)
 
-<!-- ### [ROS2-NanoOWL and NanoSAM Build](./readme_folder/perception_module_settings.md) -->
+## Design Overall Environments
+- Firstly about folder structures
+```bash
+cd ~/vlm/src
+mkdir nvidia && mkdir gdino
+```
+
+### [Grounding Dino Build](./readme_folder/grounding_dino_tiny.md)
+
 ### [NanoSAM Build](./readme_folder/nanosam.md)
 
 ---
@@ -44,25 +52,12 @@ The following sections provide detailed usage instructions for **#### 여기에 
 
 <!-- ### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md) -->
 
-### [Grounded-SAM-2](./readme_folder/grounded_sam_2.md)
+<!-- ### [Grounded-SAM-2](./readme_folder/grounded_sam_2.md) -->
 
 ---
-# Have to Modify Algorithm
-- Integrated Model
-    - CLIP-SEG
-    - EfficientViT-SAM
-    - Grounded-SAM-2
 
-- Natural Language Processing
-    - Grounding DINO
-    - Grounding DINO edge
-    - OWL-ViT
-    - OWL-ViT-Tiny
+### Have to Modify Algorithm
 
-- Segmentation
-    - NanoSAM
-    - MobileSAMv2
-    - EdgeSAM
 
 - Additional Algorithm and Methodologies for IROS or ICRA
     - Yolo SAHI
