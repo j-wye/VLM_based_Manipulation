@@ -1,4 +1,4 @@
-# NanoSAM (Want to use DLA1)
+# NanoSAM (Couldn't use DLACore)
 
 ## Setup
 ```bash
@@ -61,14 +61,13 @@ mkdir ~vlm/src/nvidia
     echo "export PATH=/usr/src/tensorrt/bin:$PATH" ~/.bashrc
     # Build decoder TensorRT engine
     trtexec \
-        --onnx=data/mask_decoder.onnx \
-        --saveEngine=data/mask_decoder_fp16.engine \
+        --onnx=data/decoder.onnx \
+        --saveEngine=data/decoder_fp16.engine \
         --fp16 \
         --minShapes=point_coords:1x1x2,point_labels:1x1 \
         --optShapes=point_coords:1x1x2,point_labels:1x1 \
         --maxShapes=point_coords:1x10x2,point_labels:1x10 \
         --memPoolSize=workspace:49152 \
-        --useDLACore=1 \
         --allowGPUFallback \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
@@ -76,14 +75,13 @@ mkdir ~vlm/src/nvidia
         --timingCacheFile=./decoder_build.cache
     
     trtexec \
-        --onnx=data/mask_decoder.onnx \
-        --saveEngine=data/mask_decoder_int8.engine \
+        --onnx=data/decoder.onnx \
+        --saveEngine=data/decoder_int8.engine \
         --int8 \
         --minShapes=point_coords:1x1x2,point_labels:1x1 \
         --optShapes=point_coords:1x1x2,point_labels:1x1 \
         --maxShapes=point_coords:1x10x2,point_labels:1x10 \
         --memPoolSize=workspace:49152 \
-        --useDLACore=1 \
         --allowGPUFallback \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
@@ -92,11 +90,10 @@ mkdir ~vlm/src/nvidia
 
     # Build encoder TensorRT engine
     trtexec \
-        --onnx=data/image_encoder.onnx \
-        --saveEngine=data/image_encoder_fp16.engine \
+        --onnx=data/encoder.onnx \
+        --saveEngine=data/encoder_fp16.engine \
         --fp16 \
         --memPoolSize=workspace:49152 \
-        --useDLACore=1 \
         --allowGPUFallback \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
@@ -104,11 +101,10 @@ mkdir ~vlm/src/nvidia
         --timingCacheFile=./encoder_build.cache
     
     trtexec \
-        --onnx=data/image_encoder.onnx \
-        --saveEngine=data/image_encoder_int8.engine \
+        --onnx=data/encoder.onnx \
+        --saveEngine=data/encoder_int8.engine \
         --int8 \
         --memPoolSize=workspace:49152 \
-        --useDLACore=1 \
         --allowGPUFallback \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
@@ -123,7 +119,7 @@ mkdir ~vlm/src/nvidia
 - i. Run NanoSAM with below code:
     ```bash
     python3 examples/basic_usage.py \
-    --image_encoder=data/image_encoder_fp16.engine \
-    --mask_decoder=data/mask_decoder_int8.engine
+        --image_encoder=data/image_encoder_fp16.engine \
+        --mask_decoder=data/mask_decoder_int8.engine
     ```
 </details>
