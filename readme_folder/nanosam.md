@@ -1,4 +1,4 @@
-# NanoSAM (Couldn't use DLACore)
+# NanoSAM (Use DLA1)
 
 ## Setup
 ```bash
@@ -43,6 +43,15 @@ mkdir ~vlm/src/nvidia
     cd nanosam
     python3 setup.py develop --user
     ```
+- ii. Change code for not occur warning log
+    ```bash
+
+    sed -i 's/torch\.from_numpy(image_np_resized)\.permute(2, 0, 1)/torch.from_numpy(image_np_resized.copy()).permute(2, 0, 1)/' nanosam/utils/predictor.py
+
+    sed -i "s/image_point_coords = torch\.tensor(\[points\])\.float()\ .cuda()/image_point_coords = torch.as_tensor(points, device='cuda').float().unsqueeze(0)/" nanosam/utils/predictor.py
+
+    sed -i "s/image_point_labels = torch\.tensor(\[point_labels\])\.float()\ .cuda()/image_point_labels = torch.as_tensor(point_labels, device='cuda').float().unsqueeze(0)/" nanosam/utils/predictor.py
+    ```
 </details>
 
 <details>
@@ -61,55 +70,49 @@ mkdir ~vlm/src/nvidia
     echo "export PATH=/usr/src/tensorrt/bin:$PATH" ~/.bashrc
     # Build decoder TensorRT engine
     trtexec \
-        --onnx=data/decoder.onnx \
-        --saveEngine=data/decoder_fp16.engine \
+        --onnx=decoder.onnx \
+        --saveEngine=decoder_fp16.engine \
         --fp16 \
-        --minShapes=point_coords:1x1x2,point_labels:1x1 \
-        --optShapes=point_coords:1x1x2,point_labels:1x1 \
-        --maxShapes=point_coords:1x10x2,point_labels:1x10 \
-        --memPoolSize=workspace:49152 \
-        --allowGPUFallback \
+        --minShapes=image_embeddings:1x256x64x64,point_coords:1x1x2,point_labels:1x1,mask_input:1x1x256x256,has_mask_input:1 \
+        --optShapes=image_embeddings:1x256x64x64,point_coords:1x1x2,point_labels:1x1,mask_input:1x1x256x256,has_mask_input:1 \
+        --maxShapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x1,mask_input:1x1x256x256,has_mask_input:1 \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
         --avgTiming=16 \
-        --timingCacheFile=./decoder_build.cache
-    
+        --timingCacheFile=./nanosam_build.cache
+
     trtexec \
-        --onnx=data/decoder.onnx \
-        --saveEngine=data/decoder_int8.engine \
+        --onnx=decoder.onnx \
+        --saveEngine=decoder_int8.engine \
         --int8 \
-        --minShapes=point_coords:1x1x2,point_labels:1x1 \
-        --optShapes=point_coords:1x1x2,point_labels:1x1 \
-        --maxShapes=point_coords:1x10x2,point_labels:1x10 \
-        --memPoolSize=workspace:49152 \
-        --allowGPUFallback \
+        --minShapes=image_embeddings:1x256x64x64,point_coords:1x1x2,point_labels:1x1,mask_input:1x1x256x256,has_mask_input:1 \
+        --optShapes=image_embeddings:1x256x64x64,point_coords:1x1x2,point_labels:1x1,mask_input:1x1x256x256,has_mask_input:1 \
+        --maxShapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x1,mask_input:1x1x256x256,has_mask_input:1 \
         --builderOptimizationLevel=5 \
         --minTiming=8 \
         --avgTiming=16 \
-        --timingCacheFile=./decoder_build.cache
+        --timingCacheFile=./nanosam_build.cache
 
     # Build encoder TensorRT engine
     trtexec \
-        --onnx=data/encoder.onnx \
-        --saveEngine=data/encoder_fp16.engine \
+        --onnx=encoder.onnx \
+        --saveEngine=encoder_fp16.engine \
         --fp16 \
-        --memPoolSize=workspace:49152 \
-        --allowGPUFallback \
+        --shapes=image:1x3x1024x1024
         --builderOptimizationLevel=5 \
         --minTiming=8 \
         --avgTiming=16 \
-        --timingCacheFile=./encoder_build.cache
-    
+        --timingCacheFile=./nanosam_build.cache
+
     trtexec \
-        --onnx=data/encoder.onnx \
-        --saveEngine=data/encoder_int8.engine \
+        --onnx=encoder.onnx \
+        --saveEngine=encoder_int8.engine \
         --int8 \
-        --memPoolSize=workspace:49152 \
-        --allowGPUFallback \
+        --shapes=image:1x3x1024x1024
         --builderOptimizationLevel=5 \
         --minTiming=8 \
         --avgTiming=16 \
-        --timingCacheFile=./encoder_build.cache
+        --timingCacheFile=./nanosam_build.cache
     ```
 </details>
 
@@ -119,7 +122,7 @@ mkdir ~vlm/src/nvidia
 - i. Run NanoSAM with below code:
     ```bash
     python3 examples/basic_usage.py \
-        --image_encoder=data/image_encoder_fp16.engine \
-        --mask_decoder=data/mask_decoder_int8.engine
+        --image_encoder=data/encoder_fp16.engine \
+        --mask_decoder=data/decoder_int8.engine
     ```
 </details>

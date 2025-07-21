@@ -67,31 +67,25 @@ mkdir -p assets/export_models/efficientvit_sam/tensorrt
 trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/xl_encoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/xl_encoder.engine \
-    --minShapes=input_image:1x3x1024x1024 \
-    --optShapes=input_image:1x3x1024x1024 \
-    --maxShapes=input_image:1x3x1024x1024 \
     --fp16 \
+    --shapes=input_image:1x3x1024x1024 \
+    --useDLACore=1 \
+    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
-    --memPoolSize=workspace:49152 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --timingCacheFile=./efficientvit_sam.cache
 
 trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/xl_decoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/xl_decoder.engine \
-    --minShapes=point_coords:1x1x2,point_labels:1x1 \
-    --optShapes=point_coords:16x2x2,point_labels:16x2 \
-    --maxShapes=point_coords:16x2x2,point_labels:16x2 \
     --fp16 \
+    --shapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x2 \
+    --useDLACore=1 \
+    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
-    --memPoolSize=workspace:49152 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --timingCacheFile=./efficientvit_sam.cache
 ```
 
@@ -100,31 +94,25 @@ trtexec \
 trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/l_encoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/l_encoder.engine \
-    --minShapes=input_image:1x3x512x512 \
-    --optShapes=input_image:1x3x512x512 \
-    --maxShapes=input_image:1x3x512x512 \
     --fp16 \
+    --shapes=input_image:1x3x512x512 \
+    --useDLACore=1 \
+    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
-    --memPoolSize=workspace:49152 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --timingCacheFile=./efficientvit_sam.cache
 
 trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/l_decoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/l_decoder.engine \
-    --minShapes=point_coords:1x1x2,point_labels:1x1 \
-    --optShapes=point_coords:16x2x2,point_labels:16x2 \
-    --maxShapes=point_coords:16x2x2,point_labels:16x2 \
     --fp16 \
+    --shapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x2 \
+    --useDLACore=1 \
+    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
-    --memPoolSize=workspace:49152 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --timingCacheFile=./efficientvit_sam.cache
 ```
 
