@@ -69,8 +69,6 @@ trtexec \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/xl_encoder.engine \
     --fp16 \
     --shapes=input_image:1x3x1024x1024 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
@@ -80,9 +78,9 @@ trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/xl_decoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/xl_decoder.engine \
     --fp16 \
-    --shapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x2 \
-    --useDLACore=1 \
-    --allowGPUFallback \
+    --minShapes=point_coords:1x1x2,point_labels:1x1 \
+    --optShapes=point_coords:16x2x2,point_labels:16x2 \
+    --maxShapes=point_coords:16x2x2,point_labels:16x2 \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
@@ -96,8 +94,6 @@ trtexec \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/l_encoder.engine \
     --fp16 \
     --shapes=input_image:1x3x512x512 \
-    --useDLACore=1 \
-    --allowGPUFallback \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
@@ -107,9 +103,9 @@ trtexec \
     --onnx=assets/export_models/efficientvit_sam/onnx/l_decoder.onnx \
     --saveEngine=assets/export_models/efficientvit_sam/tensorrt/l_decoder.engine \
     --fp16 \
-    --shapes=image_embeddings:1x256x64x64,point_coords:16x2x2,point_labels:16x2 \
-    --useDLACore=1 \
-    --allowGPUFallback \
+    --minShapes=point_coords:1x1x2,point_labels:1x1 \
+    --optShapes=point_coords:16x2x2,point_labels:16x2 \
+    --maxShapes=point_coords:16x2x2,point_labels:16x2 \
     --builderOptimizationLevel=5 \
     --minTiming=8 \
     --avgTiming=16 \
