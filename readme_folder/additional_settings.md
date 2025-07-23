@@ -5,7 +5,6 @@
 
 - Find your **pytorch & torchvision** version and go to [here](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) and download version which right for you (If ***Jetpack version <= 6.0***)
 - Dependencies
-
   ```bash
   echo "export CUDA_HOME=/usr/local/cuda-12.2" >> ~/.bashrc
   python3 -m pip install --upgrade pip
@@ -14,7 +13,11 @@
   sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
   ```
 
-- And download `.whl` file
+- Download and install onnxruntime-gpu
+  ```bash
+  wget https://nvidia.box.com/shared/static/i7n40ki3pl2x57vyn4u7e9asyiqlnl7n.whl
+  pip3 install --no-cache-dir onnxruntime_gpu-1.17.0-cp310-cp310-linux_aarch64.whl
+  ```
 
 - And install with `pip install <torch> <torchvision>`
 

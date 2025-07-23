@@ -20,13 +20,13 @@ yolo export model=yoloe-11l-seg.pt format=onnx half=True dynamic=True simplify=T
 
 - Download `.engine` file with command which provided by ultralytics
 ```bash
-yolo export model=yoloe-11s-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True
-yolo export model=yoloe-11m-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True
-yolo export model=yoloe-11l-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True
+yolo export model=yoloe-11s-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
+yolo export model=yoloe-11m-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
+yolo export model=yoloe-11l-seg.pt format=engine half=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
 
-yolo export model=yoloe-11s-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True
-yolo export model=yoloe-11m-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True
-yolo export model=yoloe-11l-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True
+yolo export model=yoloe-11s-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
+yolo export model=yoloe-11m-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
+yolo export model=yoloe-11l-seg.pt format=engine int8=True dynamic=True device=0 batch=1 nms=True nms=True agnostic_nms=False
 ```
 
 - Build `.onnx` to `.engine` with `tensorrt`
@@ -80,6 +80,7 @@ trtexec \
 
 <details>
 <summary> About example and i didn't yet experiment </summary>
+
 - with inference options
 ```bash
 trtexec \

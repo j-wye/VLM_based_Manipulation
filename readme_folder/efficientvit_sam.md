@@ -112,6 +112,29 @@ trtexec \
     --timingCacheFile=./efficientvit_sam.cache
 ```
 
+- Enter following commands for make a calibration cache:
+```bash
+polygraphy run data/encoder.onnx \
+    --trt \
+    --save-engine assets/export_models/efficientvit_sam/tensorrt/encoder_int8.engine \
+    --int8 \
+    --data-loader-script encoder_data_loader.py \
+    --data-loader-func-name data_loader \
+    --builder-optimization-level=5
+
+polygraphy run assets/export_models/efficientvit_sam/onnx/xl_decoder.onnx \
+    --trt \
+    --save-engine assets/export_models/efficientvit_sam/tensorrt/xl_decoder_int8.engine \
+    --int8 \
+    --data-loader-script decoder_data_loader.py \
+    --data-loader-func-name data_loader \
+    --trt-min-shapes 'point_coords:[1,2,2]' 'point_labels:[1,2]' \
+    --trt-opt-shapes 'point_coords:[1,2,2]' 'point_labels:[1,2]' \
+    --trt-max-shapes 'point_coords:[1,2,2]' 'point_labels:[1,2]'
+```
+
+
+
 - TensorRT Inference
 ```bash
 python applications/efficientvit_sam/run_efficientvit_sam_trt.py \
