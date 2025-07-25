@@ -9,22 +9,26 @@
   echo "export CUDA_HOME=/usr/local/cuda-12.2" >> ~/.bashrc
   python3 -m pip install --upgrade pip
   # 이건 좀 나중에 설치해야 하는듯 바로 안됨
-  # pip install numpy==1.24.4 dash==3.0.4 "Werkzeug<3.1"
+  # pip install numpy==1.26.3 dash==3.0.4 "Werkzeug<3.1"
   sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
   ```
 
 - Download and install onnxruntime-gpu
   ```bash
+  pip3 install onnx-graphsurgeon
   wget https://nvidia.box.com/shared/static/i7n40ki3pl2x57vyn4u7e9asyiqlnl7n.whl
-  pip3 install --no-cache-dir onnxruntime_gpu-1.17.0-cp310-cp310-linux_aarch64.whl
+  pip3 install "numpy==1.26.3" "onnxruntime_gpu-1.17.0-cp310-cp310-linux_aarch64.whl"
   ```
 
 - And install with `pip install <torch> <torchvision>`
-
   ```bash
+  # Torch & Torchvision
+  wget -O torchvision.whl https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
+  wget -O torch.whl https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
   # Tensorflow 2.15.0
   wget https://developer.download.nvidia.com/compute/redist/jp/v60dp/tensorflow/tensorflow-2.15.0+nv24.02-cp310-cp310-linux_aarch64.whl
-  pip install tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
+
+  pip install torch.whl torchvision.whl tensorflow-2.15.0+nv24.04-cp310-cp310-linux_aarch64.whl
   ```
 </details>
 

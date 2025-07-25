@@ -306,10 +306,10 @@ trtexec --loadEngine=data/decoder_int8_calib.engine --dumpProfile --verbose > pr
     - ## Mixed layer precision
         ```bash
         polygraphy convert data/encoder.onnx \
-        --output data/encoder_int8_mixed.engine \
-        --int8 \
-        --data-loader-script encoder_data_loader.py \
-        --builder-optimization-level=5 \
-        --precision-constraints obey \
-        --layer-precisions "/backbone/conv1/Conv:fp16" "/proj/proj.2/Conv:fp16"
+            --output data/encoder_int8_mixed.engine \
+            --int8 \
+            --data-loader-script encoder_data_loader.py \
+            --builder-optimization-level=5 \
+            --precision-constraints obey \
+            --layer-precisions "/backbone/conv1/Conv:fp16" "/proj/proj.2/Conv:fp16"
         ```

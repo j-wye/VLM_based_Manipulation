@@ -98,9 +98,8 @@ pip install .
 # cd ../trt_pose
 # python3 setup.py install --user
 cd ../nanoowl
-# pip3 install -e . --user
-# sudo python3 setup.py develop --user
-python3 setup.py develop --user
+pip install .
+
 
 # Build NanoOWL
 sudo apt install ros-humble-image-publisher* vpi3-samples libnvvpi3 vpi3-dev -y

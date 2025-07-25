@@ -12,7 +12,7 @@ mkdir yoloe/weights && cd yoloe/weights
 
 - Download `.onnx` file with command
 ```bash
-pip install ultralytics
+pip install ultralytics numpy==1.24.0
 yolo export model=yoloe-11s-seg.pt format=onnx half=True dynamic=True simplify=True opset=17 device=0 batch=1 nms=True agnostic_nms=False
 yolo export model=yoloe-11m-seg.pt format=onnx half=True dynamic=True simplify=True opset=17 device=0 batch=1 nms=True agnostic_nms=False
 yolo export model=yoloe-11l-seg.pt format=onnx half=True dynamic=True simplify=True opset=17 device=0 batch=1 nms=True agnostic_nms=False
