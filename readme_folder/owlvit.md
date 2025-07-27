@@ -447,7 +447,13 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/coco128.zip
 unzip coco128.zip && rm coco128.zip
 ```
 
-- Make a python code with **calib.py**:
+- Second, have to download annotations for calibration dummy text queries
+```bash
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+unzip annotations_trainval2017.zip && rm annotations_trainval2017.zip
+```
+
+- Make a python code with **export_calib_cache.py**:
 ```python
 import tensorrt as trt
 import pycuda.driver as cuda
@@ -649,43 +655,82 @@ if __name__ == "__main__":
 
 - Execute Commands:
 ```bash
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlvit-base-patch32 \
     --file_tag 32 \
     --component image_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlvit-base-patch32 \
     --file_tag 32 \
     --component text_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlvit-base-patch16 \
     --file_tag 16 \
     --component image_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlvit-base-patch16 \
     --file_tag 16 \
     --component text_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlv2-base-patch16 \
     --component image_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlv2-base-patch16 \
     --component text_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlv2-base-patch16-ensemble \
     --file_tag ensemble \
     --component image_encoder
 
-python3 calib.py \
+python3 export_calib_cache.py \
     --model_name owlv2-base-patch16-ensemble \
     --file_tag ensemble \
     --component text_encoder
+```
+</details>
+
+- Test with `onnx_latency.py`
+```bash
+python3 onnx_latency.py \
+    --model_name owlvit-base-patch32 \
+    --file_tag 32
+
+python3 onnx_latency.py \
+    --model_name owlvit-base-patch16 \
+    --file_tag 16
+
+python3 onnx_latency.py \
+    --model_name owlv2-base-patch16 \
+
+python3 onnx_latency.py \
+    --model_name owlv2-base-patch16-ensemble \
+    --file_tag ensemble
+```
+
+- Test with `trt_latency.py`
+```bash
+python3 trt_latency.py \
+    --model_name owlvit-base-patch32 \
+    --file_tag 32
+
+python3 trt_latency.py \
+    --model_name owlvit-base-patch16 \
+    --file_tag 16
+
+python3 trt_latency.py \
+    --model_name owlv2-base-patch16 \
+
+python3 trt_latency.py \
+    --model_name owlv2-base-patch16-ensemble \
+    --file_tag ensemble
+```
+
 
 
 
