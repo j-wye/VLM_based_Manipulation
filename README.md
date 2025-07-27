@@ -62,8 +62,3 @@ The following sections provide detailed usage instructions for **#### 여기에 
 - Additional Algorithm and Methodologies for IROS or ICRA
     - Yolo SAHI
     - OWLv2
-
-
-
-
-
