@@ -442,11 +442,10 @@ python export_engine.py \
 
 - First, have to download coco128 dataset
 ```bash
-cd ~/vlm/src/owlvit/weights
+cd ~/vlm/src/owlvit
 wget https://github.com/ultralytics/assets/releases/download/v0.0.0/coco128.zip
 unzip coco128.zip && rm coco128.zip
 ```
-
 
 - Make a python code with **calib.py**:
 ```python
