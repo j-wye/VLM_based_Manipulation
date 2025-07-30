@@ -378,12 +378,14 @@ if __name__ == "__main__":
 python export_engine.py \
     --model_name owlvit-base-patch32 \
     --file_tag 32 \
-    --component image_encoder
+    --component image_encoder \
+    --force_fp32_layers "*LayerNorm*"
 
 python export_engine.py \
     --model_name owlvit-base-patch32 \
     --file_tag 32 \
-    --component text_encoder
+    --component text_encoder \
+    --force_fp32_layers "*LayerNorm*"
 
 python export_engine.py \
     --model_name owlvit-base-patch32 \
@@ -394,7 +396,8 @@ python export_engine.py \
 python export_engine.py \
     --model_name owlvit-base-patch16 \
     --file_tag 16 \
-    --component image_encoder
+    --component image_encoder \
+    --force_fp32_layers "*LayerNorm*"
 
 python export_engine.py \
     --model_name owlvit-base-patch16 \
@@ -409,7 +412,8 @@ python export_engine.py \
 # OWLv2 base patch16
 python export_engine.py \
     --model_name owlv2-base-patch16 \
-    --component image_encoder
+    --component image_encoder \
+    --force_fp32_layers "*LayerNorm*"
 
 python export_engine.py \
     --model_name owlv2-base-patch16 \
@@ -423,7 +427,8 @@ python export_engine.py \
 python export_engine.py \
     --model_name owlv2-base-patch16-ensemble \
     --file_tag ensemble \
-    --component image_encoder
+    --component image_encoder \
+    --force_fp32_layers "*LayerNorm*"
 
 python export_engine.py \
     --model_name owlv2-base-patch16-ensemble \
