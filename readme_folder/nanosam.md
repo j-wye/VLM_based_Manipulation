@@ -222,6 +222,18 @@ mkdir ~vlm/src/nvidia
             --builderOptimizationLevel=5 \
             --minTiming=8 \
             --avgTiming=16
+        
+        trtexec \
+            --onnx=data/decoder.onnx \
+            --saveEngine=data/decoder_int8.engine \
+            --minShapes=image_embeddings:1x256x64x64,point_coords:1x2x2,point_labels:1x2,mask_input:1x1x256x256,has_mask_input:1 \
+            --optShapes=image_embeddings:1x256x64x64,point_coords:1x3x2,point_labels:1x3,mask_input:1x1x256x256,has_mask_input:1 \
+            --maxShapes=image_embeddings:1x256x64x64,point_coords:1x5x2,point_labels:1x5,mask_input:1x1x256x256,has_mask_input:1 \
+            --int8 \
+            --calib=data/decoder.cache \
+            --builderOptimizationLevel=5 \
+            --minTiming=8 \
+            --avgTiming=16
 
         # Build encoder TensorRT engine
         trtexec \

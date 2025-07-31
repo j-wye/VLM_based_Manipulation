@@ -740,3 +740,38 @@ python3 trt_latency.py \
 
 
 
+```bash
+trtexec \
+  --onnx=14_image_encoder.onnx \
+  --saveEngine=weights/14_image_encoder_fp32.engine \
+  --shapes=image:1x3x840x840 \
+  --builderOptimizationLevel=5 \
+  --minTiming=8 \
+  --avgTiming=16 \
+  --timingCacheFile=./14_image_encoder_build.cache
+
+trtexec \
+  --onnx=14_image_encoder.onnx \
+  --saveEngine=weights/14_image_encoder_fp16.engine \
+  --shapes=image:1x3x840x840 \
+  --fp16 \
+  --precisionConstraints=obey \
+  --layerPrecisions=vision_model/encoder/layers/0/attn/softmax:fp32,vision_model/encoder/layers/1/attn/softmax:fp32,vision_model/encoder/layers/2/attn/softmax:fp32,vision_model/encoder/layers/3/attn/softmax:fp32,vision_model/encoder/layers/4/attn/softmax:fp32,vision_model/encoder/layers/5/attn/softmax:fp32,vision_model/encoder/layers/6/attn/softmax:fp32,vision_model/encoder/layers/7/attn/softmax:fp32,vision_model/encoder/layers/8/attn/softmax:fp32,vision_model/encoder/layers/9/attn/softmax:fp32,vision_model/encoder/layers/10/attn/softmax:fp32,vision_model/encoder/layers/11/attn/softmax:fp32,vision_model/encoder/layers/12/attn/softmax:fp32,vision_model/encoder/layers/13/attn/softmax:fp32,vision_model/encoder/layers/14/attn/softmax:fp32,vision_model/encoder/layers/15/attn/softmax:fp32,vision_model/encoder/layers/16/attn/softmax:fp32,vision_model/encoder/layers/17/attn/softmax:fp32,vision_model/encoder/layers/18/attn/softmax:fp32,vision_model/encoder/layers/19/attn/softmax:fp32,vision_model/encoder/layers/20/attn/softmax:fp32,vision_model/encoder/layers/21/attn/softmax:fp32,vision_model/encoder/layers/22/attn/softmax:fp32,vision_model/encoder/layers/23/attn/softmax:fp32 \
+  --builderOptimizationLevel=5 \
+  --minTiming=8 \
+  --avgTiming=16 \
+  --timingCacheFile=./14_image_encoder_build.cache
+
+trtexec \
+  --onnx=14_image_encoder.onnx \
+  --saveEngine=weights/14_image_encoder_int8.engine \
+  --shapes=image:1x3x840x840 \
+  --int8 \
+  --calib=14_image_encoder.cache \
+  --precisionConstraints=obey \
+  --layerPrecisions=vision_model/encoder/layers/0/attn/softmax:fp32,vision_model/encoder/layers/1/attn/softmax:fp32,vision_model/encoder/layers/2/attn/softmax:fp32,vision_model/encoder/layers/3/attn/softmax:fp32,vision_model/encoder/layers/4/attn/softmax:fp32,vision_model/encoder/layers/5/attn/softmax:fp32,vision_model/encoder/layers/6/attn/softmax:fp32,vision_model/encoder/layers/7/attn/softmax:fp32,vision_model/encoder/layers/8/attn/softmax:fp32,vision_model/encoder/layers/9/attn/softmax:fp32,vision_model/encoder/layers/10/attn/softmax:fp32,vision_model/encoder/layers/11/attn/softmax:fp32,vision_model/encoder/layers/12/attn/softmax:fp32,vision_model/encoder/layers/13/attn/softmax:fp32,vision_model/encoder/layers/14/attn/softmax:fp32,vision_model/encoder/layers/15/attn/softmax:fp32,vision_model/encoder/layers/16/attn/softmax:fp32,vision_model/encoder/layers/17/attn/softmax:fp32,vision_model/encoder/layers/18/attn/softmax:fp32,vision_model/encoder/layers/19/attn/softmax:fp32,vision_model/encoder/layers/20/attn/softmax:fp32,vision_model/encoder/layers/21/attn/softmax:fp32,vision_model/encoder/layers/22/attn/softmax:fp32,vision_model/encoder/layers/23/attn/softmax:fp32 \
+  --builderOptimizationLevel=5 \
+  --minTiming=8 \
+  --avgTiming=16 \
+  --timingCacheFile=./14_image_encoder_build.cache
+```

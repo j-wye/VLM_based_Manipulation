@@ -45,7 +45,7 @@ git clone https://github.com/catchorg/Catch2.git
   - NanoOWL :
     ```bash
     cd ../nanoowl
-    pip install .
+    pip install -e .
     ```
   - cam2image :
     ```bash
