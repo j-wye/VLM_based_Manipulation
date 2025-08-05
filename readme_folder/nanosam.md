@@ -214,14 +214,38 @@ mkdir ~vlm/src/nvidia
         # Build decoder TensorRT engine
         trtexec \
             --onnx=data/decoder.onnx \
-            --saveEngine=data/decoder_fp16.engine \
+            --saveEngine=data/decoder_fp32.engine \
             --minShapes=image_embeddings:1x256x64x64,point_coords:1x2x2,point_labels:1x2,mask_input:1x1x256x256,has_mask_input:1 \
             --optShapes=image_embeddings:1x256x64x64,point_coords:1x3x2,point_labels:1x3,mask_input:1x1x256x256,has_mask_input:1 \
             --maxShapes=image_embeddings:1x256x64x64,point_coords:1x10x2,point_labels:1x10,mask_input:1x1x256x256,has_mask_input:1 \
-            --fp16 \
             --builderOptimizationLevel=5 \
             --minTiming=8 \
-            --avgTiming=16
+            --avgTiming=16 \
+            --useCudaGraph
+        
+        trtexec \
+            --onnx=data/decoder.onnx \
+            --saveEngine=data/decoder_best.engine \
+            --best \
+            --minShapes=image_embeddings:1x256x64x64,point_coords:1x2x2,point_labels:1x2,mask_input:1x1x256x256,has_mask_input:1 \
+            --optShapes=image_embeddings:1x256x64x64,point_coords:1x3x2,point_labels:1x3,mask_input:1x1x256x256,has_mask_input:1 \
+            --maxShapes=image_embeddings:1x256x64x64,point_coords:1x10x2,point_labels:1x10,mask_input:1x1x256x256,has_mask_input:1 \
+            --builderOptimizationLevel=5 \
+            --minTiming=8 \
+            --avgTiming=16 \
+            --useCudaGraph
+        
+        trtexec \
+            --onnx=data/decoder.onnx \
+            --saveEngine=data/decoder_fp16.engine \
+            --fp16 \
+            --minShapes=image_embeddings:1x256x64x64,point_coords:1x2x2,point_labels:1x2,mask_input:1x1x256x256,has_mask_input:1 \
+            --optShapes=image_embeddings:1x256x64x64,point_coords:1x3x2,point_labels:1x3,mask_input:1x1x256x256,has_mask_input:1 \
+            --maxShapes=image_embeddings:1x256x64x64,point_coords:1x10x2,point_labels:1x10,mask_input:1x1x256x256,has_mask_input:1 \
+            --builderOptimizationLevel=5 \
+            --minTiming=8 \
+            --avgTiming=16 \
+            --useCudaGraph
         
         trtexec \
             --onnx=data/decoder.onnx \
@@ -233,9 +257,29 @@ mkdir ~vlm/src/nvidia
             --calib=data/decoder.cache \
             --builderOptimizationLevel=5 \
             --minTiming=8 \
-            --avgTiming=16
+            --avgTiming=16 \
+            --useCudaGraph
 
         # Build encoder TensorRT engine
+        trtexec \
+            --onnx=data/encoder.onnx \
+            --saveEngine=data/encoder_fp32.engine \
+            --shapes=image:1x3x1024x1024 \
+            --builderOptimizationLevel=5 \
+            --minTiming=8 \
+            --avgTiming=16 \
+            --useCudaGraph
+        
+        trtexec \
+            --onnx=data/encoder.onnx \
+            --saveEngine=data/encoder_best.engine \
+            --best \
+            --shapes=image:1x3x1024x1024 \
+            --builderOptimizationLevel=5 \
+            --minTiming=8 \
+            --avgTiming=16 \
+            --useCudaGraph
+        
         trtexec \
             --onnx=data/encoder.onnx \
             --saveEngine=data/encoder_fp16.engine \
@@ -243,7 +287,8 @@ mkdir ~vlm/src/nvidia
             --shapes=image:1x3x1024x1024 \
             --builderOptimizationLevel=5 \
             --minTiming=8 \
-            --avgTiming=16
+            --avgTiming=16 \
+            --useCudaGraph
 
         trtexec \
             --onnx=data/encoder.onnx \
@@ -253,7 +298,8 @@ mkdir ~vlm/src/nvidia
             --calib=data/encoder.cache \
             --builderOptimizationLevel=5 \
             --minTiming=8 \
-            --avgTiming=16
+            --avgTiming=16 \
+            --useCudaGraph
         ```
 </details>
 
@@ -275,13 +321,5 @@ trtexec --loadEngine=data/encoder_fp16.engine --dumpProfile --verbose > profile/
 trtexec --loadEngine=data/encoder_int8.engine --dumpProfile --verbose > profile/encoder_int8_profile.txt
 trtexec --loadEngine=data/decoder_fp16.engine --dumpProfile --verbose > profile/decoder_fp16_profile.txt
 trtexec --loadEngine=data/decoder_int8.engine --dumpProfile --verbose > profile/decoder_int8_profile.txt
-
-trtexec --loadEngine=data/original_encoder_fp16.engine --dumpProfile --verbose > profile/original_encoder_fp16_profile.txt
-trtexec --loadEngine=data/original_encoder_int8.engine --dumpProfile --verbose > profile/original_encoder_int8_profile.txt
-trtexec --loadEngine=data/original_decoder_fp16.engine --dumpProfile --verbose > profile/original_decoder_fp16_profile.txt
-trtexec --loadEngine=data/original_decoder_int8.engine --dumpProfile --verbose > profile/original_decoder_int8_profile.txt
-
-trtexec --loadEngine=data/encoder_int8_calib.engine --dumpProfile --verbose > profile/encoder_int8_calib_profile.txt
-trtexec --loadEngine=data/decoder_int8_calib.engine --dumpProfile --verbose > profile/decoder_int8_calib_profile.txt
 ```
 
