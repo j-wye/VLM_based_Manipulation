@@ -2,6 +2,9 @@
 
 - Make a folders and structures:
 ```bash
+pip install nvidia-dali-cuda120
+python -c "import nvidia.dali as dali; print(dali.__version__)"
+
 cd ~/vlm/src
 mkdir -p owlvit/weights
 cd owlvit
