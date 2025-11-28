@@ -47,6 +47,13 @@ snap connections firefox
 # Install additional packages
 sudo -H pip install -U jetson-stats
 
+sudo jetson_clocks --store
+sudo jetson_clocks --fan
+sudo jetson_clocks --restore
+echo "alias fan_base='sudo jetson_clocks --restore && sudo jetson_clocks'" >> ~/.bashrc
+echo "alias fan_max='sudo jetson_clocks --fan'" >> ~/.bashrc
+echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bashrc
+
 # Pytorch and Torchvision installation script for Jetson Orin devices
 wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl -O torch
 wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl -O torchvision
@@ -254,11 +261,11 @@ cd librealsense
 mkdir build && cd build
 
 cmake .. \
-  -DBUILD_WITH_OPENCL=true \
+  -DBUILD_PYTHON_BINDINGS=ON \
+  -DBUILD_WITH_CUDA=ON \
   -DBUILD_GRAPHICAL_EXAMPLES=false \
-  -DBUILD_EXAMPLES=true \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DUSE_CUDA=ON
+  -DBUILD_EXAMPLES=false \
+  -DCMAKE_BUILD_TYPE=Release
 
 make -j$(nproc)
 sudo make install

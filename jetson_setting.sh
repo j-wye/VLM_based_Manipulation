@@ -30,11 +30,6 @@ echo "" >> ~/.bashrc
 source ~/.bashrc
 sudo apt install axel terminator ros-humble-rmw-fastrtps-cpp* ros-humble-rmw-cyclonedds-cpp* -y
 
-# For F1tenth Course
-sudo apt-get install libasio-dev
-sudo apt install ros-humble-io-context
-sudo apt install ros-humble-asio-cmake-module
-
 # Firefox installation script for Jetson Orin devices
 sudo install -d -m 0755 /etc/apt/keyrings
 wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg \
@@ -49,4 +44,12 @@ snap connections firefox
 
 # Install additional packages
 sudo -H pip install -U jetson-stats
+
+sudo jetson_clocks --store
+sudo jetson_clocks --fan
+sudo jetson_clocks --restore
+echo "alias fan_base='sudo jetson_clocks --restore && sudo jetson_clocks'" >> ~/.bashrc
+echo "alias fan_max='sudo jetson_clocks --fan'" >> ~/.bashrc
+echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bashrc
+
 sudo reboot

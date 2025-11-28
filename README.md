@@ -31,15 +31,6 @@ echo "# Change swap memory : sudo gedit /etc/systemd/nvzramconfig.sh" >> ~/.bash
 
 ### [Pytorch, Torchvision, OpenCV with Cuda, Realsense source Installation](./readme_folder/additional_settings.md)
 
-## Design Overall Environments
-- Firstly about folder structures
-```bash
-cd ~/vlm/src
-mkdir nvidia && mkdir gdino
-```
-
-### [Grounding Dino Build](./readme_folder/grounding_dino_tiny.md)
-
 ### [NanoSAM Build](./readme_folder/nanosam.md)
 
 ---
@@ -48,17 +39,10 @@ If you have reached this point, both the installation and environment configurat
 
 The following sections provide detailed usage instructions for **#### 여기에 detection 알고리즘 선정하면 추가할것** NanoSAM
 
-<!-- ### [Use GG-CNN2](./readme_folder/ggcnn_readme.md) -->
-
-<!-- ### [Use Contact-GraspNet](./readme_folder/contact_graspnet_readme.md) -->
-
-<!-- ### [Grounded-SAM-2](./readme_folder/grounded_sam_2.md) -->
-
 ---
 
 ### Have to Modify Algorithm
 
-
 - Additional Algorithm and Methodologies for IROS or ICRA
-    - Yolo SAHI
     - OWLv2
+    - CLIPSEG

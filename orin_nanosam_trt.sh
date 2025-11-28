@@ -28,7 +28,6 @@ trtexec \
     --avgTiming=16 \
     --timingCacheFile=./decoder_build.cache
 
-
 trtexec \
     --onnx=~/vlm/src/nvidia/nanosam/data/image_encoder.onnx \
     --saveEngine=~/vlm/src/nvidia/nanosam/data/image_encoder_fp16.engine \
