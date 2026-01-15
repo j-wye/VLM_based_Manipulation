@@ -263,12 +263,14 @@ mkdir build && cd build
 cmake .. \
   -DBUILD_PYTHON_BINDINGS=ON \
   -DBUILD_WITH_CUDA=ON \
+  -DFORCE_RSUSB_BACKEND=true \
   -DBUILD_GRAPHICAL_EXAMPLES=false \
   -DBUILD_EXAMPLES=false \
   -DCMAKE_BUILD_TYPE=Release
 
 make -j$(nproc)
 sudo make install
+sudo ldconfig
 
 mkdir -p ~/vlm/src
 cd ~/vlm/src/
