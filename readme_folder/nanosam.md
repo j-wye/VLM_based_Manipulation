@@ -19,13 +19,13 @@ mkdir ~vlm/src/nvidia
 - iii. install NVIDIA TensorRT
 - iv. install TRTPose
     ```bash
-    sudo pip3 install tqdm cython pycocotools
+    pip3 install tqdm cython pycocotools
     sudo apt-get install python3-matplotlib
 
     cd ~/vlm/src/nvidia
     git clone https://github.com/NVIDIA-AI-IOT/trt_pose
     cd trt_pose
-    sudo python3 setup.py install
+    pip install .
     ```
 - v. install the Transformers library 
     ```bash
