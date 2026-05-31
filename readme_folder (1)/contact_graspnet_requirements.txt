@@ -1,0 +1,12 @@
+numpy
+matplotlib
+scikit-learn
+scipy
+bias
+clang
+clang-tools
+libclang
+clangxx
+configobj
+cycler
+dbus
